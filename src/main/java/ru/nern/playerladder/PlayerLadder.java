@@ -23,21 +23,5 @@ public class PlayerLadder implements ModInitializer
 			if(handler.player.hasVehicle() && handler.player.getVehicle() instanceof PlayerEntity)
 				handler.player.stopRiding();
 		});
-
-		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->
-		{
-			if(!world.isClient && hand == Hand.MAIN_HAND && entity instanceof PlayerEntity && player.getStackInHand(hand).isEmpty())
-			{
-				ServerPlayerEntity passenger = (ServerPlayerEntity) entity;
-
-				while (passenger.getFirstPassenger() != null && passenger.getFirstPassenger() != player)
-					passenger = (ServerPlayerEntity) passenger.getFirstPassenger();
-
-				player.startRiding(passenger);
-
-				return ActionResult.SUCCESS;
-			}
-			return ActionResult.PASS;
-		});
 	}
 }
